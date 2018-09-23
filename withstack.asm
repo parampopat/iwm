@@ -17,18 +17,24 @@ code segment
 	mov ss,ax
 	mov ax,a
 	mov bx,b
-	push ax
-	push bx
+	push cx
 	call addnum
-	pop bx
-	pop ax
+	pop cx
+	mov c, cx
 	jmp codeends
 	addnum proc near
+		push cx
+		push ax
+		push bx
 		mov bp,sp
-		mov ax,[bp+4]
-		mov bx,[bp+2]
+		mov ax,[bp+2]
+		mov bx,[bp]
 		add ax,bx
 		mov c, ax
+		mov [bp+8], ax
+		pop bx
+		pop ax
+		pop cx
 		ret
 	addnum endp
 	

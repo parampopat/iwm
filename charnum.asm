@@ -1,5 +1,5 @@
 data segment
-	buffer db 20 dup(0)
+	buffer db 30h dup(0)
 	len db ($ - buffer)
 	ans db 4 dup(0)
 data ends
@@ -28,8 +28,17 @@ code segment
 		inc bx
 	loop main	
 	label1:
-	mov ans[0], bl
-	mov ans[1], '$'
+	mov ax, bx
+	daa
+	mov cl, al
+	and al, 0fh
+	and cl, 0f0h
+	ror cl, 4h
+	add al, 30h
+	add cl, 30h
+	mov ans[1], al
+	mov ans[0], cl
+	mov ans[2], '$'
 	mov dx, offset ans
 	mov ah, 09h ; prints ascii of the count
 	int 21h
